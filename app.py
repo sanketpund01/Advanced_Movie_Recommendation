@@ -4,8 +4,19 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import cosine_similarity
+import subprocess
+import os
 
-!wget -q https://files.grouplens.org/datasets/movielens/ml-100k.zip
+# Check if the folder already exists so you don't redownload every run
+if not os.path.exists("ml-100k"):
+    # Download the dataset
+    subprocess.run(["wget", "-q", "https://files.grouplens.org/datasets/movielens/ml-100k.zip"], check=True)
+    
+    # Extract the dataset
+    subprocess.run(["unzip", "-q", "ml-100k.zip"], check=True)
+    
+    # Optional: Remove the zip file to save space
+    subprocess.run(["rm", "ml-100k.zip"], check=True)
 !unzip -qo ml-100k.zip
 
 ratings=pd.read_csv('ml-100k/u.data',sep='\t',
