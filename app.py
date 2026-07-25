@@ -6,14 +6,25 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import cosine_similarity
 import subprocess
 import os
+import urllib.request
+import zipfile
 
-# Check if the folder already exists so you don't redownload every run
+# Check if the extracted directory exists
 if not os.path.exists("ml-100k"):
-    # Download the dataset
-    subprocess.run(["wget", "-q", "https://files.grouplens.org/datasets/movielens/ml-100k.zip"], check=True)
+    print("Downloading MovieLens dataset...")
+    url = "https://files.grouplens.org/datasets/movielens/ml-100k.zip"
+    zip_path = "ml-100k.zip"
     
-    # Extract the dataset
-    subprocess.run(["unzip", "-q", "ml-100k.zip"], check=True)
+    # Download the file directly using Python
+    urllib.request.urlretrieve(url, zip_path)
+    
+    # Extract the zip file using Python
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(".")
+    
+    # Clean up the zip file
+    os.remove(zip_path)
+    print("Dataset ready!")
     
     # Optional: Remove the zip file to save space
     subprocess.run(["rm", "ml-100k.zip"], check=True)
