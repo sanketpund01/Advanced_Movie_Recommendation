@@ -17,8 +17,7 @@ if not os.path.exists("ml-100k"):
     
     # Optional: Remove the zip file to save space
     subprocess.run(["rm", "ml-100k.zip"], check=True)
-!unzip -qo ml-100k.zip
-
+    
 ratings=pd.read_csv('ml-100k/u.data',sep='\t',
 names=['user_id','movie_id','rating','timestamp'])
 
